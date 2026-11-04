@@ -1,51 +1,41 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
-/* ---------- v3: hierarchy, tooltips, tour ---------- */
-.sec-h{display:flex;align-items:center;gap:12px;margin-top:8px}
-.sec-t{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-2);font-weight:500;white-space:nowrap}
-.sec-h::after{content:"";flex:1;height:1px;background:var(--line)}
-details.more-sec{border:1px solid var(--line)}
-details.more-sec>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px 14px;padding:16px 20px;flex-wrap:wrap}
-details.more-sec>summary::-webkit-details-marker,details.more>summary::-webkit-details-marker,.nav-more>summary::-webkit-details-marker{display:none}
-details.more-sec>summary::before{content:"+";font-family:var(--mono);width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line-2);flex:none}
-details.more-sec[open]>summary::before{content:"\2212"}
-details.more-sec>summary:hover::before{border-color:var(--fg)}
-details.more-sec>.inner{padding:0 16px 16px;display:grid;gap:16px}
-details.more>summary{list-style:none;cursor:pointer;font-weight:700;font-size:14px;display:flex;gap:8px;align-items:baseline}
-details.more>summary::before{content:"\25B8";color:var(--muted)}
-details.more[open]>summary::before{content:"\25BE"}
-.tip{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;border:1px solid currentColor;background:transparent;font:600 10px/1 var(--mono);color:var(--muted);padding:0;vertical-align:middle;margin-left:4px;cursor:help;text-transform:none;letter-spacing:0;font-style:normal}
-.tip:hover,.tip:focus-visible{color:var(--fg)}
-.panel.invert .tip{color:#5a5955}
-#tipBox{position:fixed;z-index:140;max-width:280px;background:var(--fg);color:var(--invert-fg);padding:10px 12px;font-size:12.5px;line-height:1.45;box-shadow:3px 3px 0 var(--plunk);pointer-events:none;opacity:0;transition:opacity .12s;left:0;top:0}
-#tipBox.show{opacity:1}
-.tabbar{display:flex;border-bottom:1px solid var(--line-2);overflow-x:auto;scrollbar-width:none}
-.tabbar button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 16px;font-weight:700;color:var(--muted);white-space:nowrap;margin-bottom:-1px}
-.tabbar button:hover{color:var(--fg)}
-.tabbar button.on{color:var(--fg);border-bottom-color:var(--fg)}
-.step-h{display:flex;align-items:center;gap:10px}
-.step-h h3{font-size:16px;font-weight:700}
-.step-n{width:24px;height:24px;flex:none;display:grid;place-items:center;background:var(--fg);color:var(--invert-fg);font:700 12px var(--mono)}
-.fc-act-h{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:center}
-.fc-act .t{font-weight:700}
-.fc-stress{border:1px dashed var(--line-2)!important;padding:12px!important}
-.fc-pick{border:1px solid var(--line-2);background:var(--panel-2);padding:14px;display:grid;gap:6px}
-.coin{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--warn)}
-.nav-more>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:8px 8px 4px}
-.nav-more>summary::after{content:"+";font-family:var(--mono);font-size:12px;color:var(--muted)}
-.nav-more[open]>summary::after{content:"\2212"}
-.nav-more>summary:hover .eyebrow{color:var(--fg)}
-.tourbtn{gap:8px;height:38px}
-.tourbtn b{width:18px;height:18px;display:grid;place-items:center;border-radius:50%;background:var(--fg);color:var(--invert-fg);font-size:11px}
-#tour{position:fixed;inset:0;z-index:130}
-.tour-hole{position:fixed;box-shadow:0 0 0 200vmax rgba(0,0,0,.74);outline:2px solid var(--fg);outline-offset:2px;transition:left .25s ease,top .25s ease,width .25s ease,height .25s ease;pointer-events:none}
-.tour-card{position:fixed;width:min(380px,calc(100vw - 32px));background:var(--panel);border:1px solid var(--fg);padding:18px;display:grid;gap:12px;box-shadow:5px 5px 0 var(--plunk);transition:left .25s ease,top .25s ease}
-.tour-card h3{font-family:var(--display);font-size:24px;line-height:1.1}
-.tour-card p{color:var(--fg-2);font-size:13.5px}
-.tour-dots{display:flex;gap:4px}.tour-dots i{width:14px;height:3px;background:var(--line-2)}.tour-dots i.on{background:var(--fg)}
-#tourPrompt{position:fixed;right:24px;bottom:24px;z-index:96;width:min(340px,calc(100vw - 32px));background:var(--fg);color:var(--invert-fg);padding:16px 18px;display:grid;gap:10px;box-shadow:5px 5px 0 var(--plunk)}
-#tourPrompt .link{color:var(--invert-fg)}
-@media (max-width:860px){.hide-sm{display:none}.tourbtn{padding:7px 10px}#tourPrompt{right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
-</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>
+/* Outside claude.ai there is no window.claude: provide the same `sample` call through this site's /api/ai function. */
+(function () {
+  if (window.claude) return;
+  const merge = (msgs) => { const out = []; for (const m of msgs) { const last = out[out.length - 1]; if (last && last.role === m.role && typeof last.content === "string" && typeof m.content === "string") last.content += "\n\n" + m.content; else out.push({ role: m.role, content: m.content }); } return out; };
+  const sample = async (input, opts = {}) => {
+    let messages = merge(typeof input === "string" ? [{ role: "user", content: input }] : input);
+    const tools = (opts.tools || []).map((t) => ({ name: t.name, description: t.description, input_schema: t.inputSchema || { type: "object", properties: {} } }));
+    let text = "";
+    for (let round = 0; round < 6; round++) {
+      if (opts.signal && opts.signal.aborted) throw { code: "cancelled", text };
+      let r;
+      try { r = await fetch("/api/ai", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ messages, tools, tier: opts.modelTier || "default" }), signal: opts.signal }); }
+      catch (e) { throw { code: opts.signal && opts.signal.aborted ? "cancelled" : "upstream_error", message: String(e), text }; }
+      if (r.status === 429) throw { code: "rate_limited", message: "Rate limited", text };
+      if (r.status === 501 || r.status === 401 || r.status === 404) throw { code: "not_granted", message: "Gemini is not set up on this site" };
+      if (!r.ok) throw { code: "upstream_error", message: "HTTP " + r.status, text };
+      const data = await r.json(), blocks = data.content || [];
+      const t = blocks.filter((b) => b.type === "text").map((b) => b.text).join("");
+      if (t) { text = text ? text + "\n\n" + t : t; opts.onText && opts.onText({ text, delta: t }); }
+      const uses = blocks.filter((b) => b.type === "tool_use");
+      if (data.stop_reason !== "tool_use" || !uses.length) { if (!text) throw { code: "empty_completion", message: "No text" }; return { text, truncated: data.stop_reason === "max_tokens", modelTierApplied: opts.modelTier || "default" }; }
+      messages = messages.concat([{ role: "assistant", content: blocks }]);
+      const results = [];
+      for (const u of uses) {
+        const tool = (opts.tools || []).find((x) => x.name === u.name); let out;
+        try { out = tool ? await tool.execute(u.input || {}, { signal: opts.signal }) : "Error: unknown tool"; out = typeof out === "string" ? out : JSON.stringify(out); } catch (e) { out = "Error: " + ((e && e.message) || e); }
+        results.push({ type: "tool_result", tool_use_id: u.id, content: out });
+      }
+      messages.push({ role: "user", content: results });
+    }
+    return { text, truncated: true, modelTierApplied: opts.modelTier || "default" };
+  };
+  sample.limits = async () => ({ maxPromptBytes: 262144, tools: { maxCount: 8 } });
+  let ok = null;
+  window.claude = { use: async (name) => { if (name !== "sample") return null; if (ok === null) { try { ok = (await fetch("/api/ai", { method: "GET" })).ok; } catch (e) { ok = false; } } return ok ? sample : null; } };
+})();
+</script></head><body>
 <title>Compass Money OS</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -332,6 +322,55 @@ select.tf{appearance:none;background-image:linear-gradient(45deg,transparent 50%
   .panel{padding:16px}
   .story{padding:22px;min-height:380px}
 }
+
+/* ---------- v3: hierarchy, tooltips, tour ---------- */
+.sec-h{display:flex;align-items:center;gap:12px;margin-top:8px}
+.sec-t{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-2);font-weight:500;white-space:nowrap}
+.sec-h::after{content:"";flex:1;height:1px;background:var(--line)}
+details.more-sec{border:1px solid var(--line)}
+details.more-sec>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px 14px;padding:16px 20px;flex-wrap:wrap}
+details.more-sec>summary::-webkit-details-marker,details.more>summary::-webkit-details-marker,.nav-more>summary::-webkit-details-marker{display:none}
+details.more-sec>summary::before{content:"+";font-family:var(--mono);width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line-2);flex:none}
+details.more-sec[open]>summary::before{content:"\2212"}
+details.more-sec>summary:hover::before{border-color:var(--fg)}
+details.more-sec>.inner{padding:0 16px 16px;display:grid;gap:16px}
+details.more>summary{list-style:none;cursor:pointer;font-weight:700;font-size:14px;display:flex;gap:8px;align-items:baseline}
+details.more>summary::before{content:"\25B8";color:var(--muted)}
+details.more[open]>summary::before{content:"\25BE"}
+.tip{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;border:1px solid currentColor;background:transparent;font:600 10px/1 var(--mono);color:var(--muted);padding:0;vertical-align:middle;margin-left:4px;cursor:help;text-transform:none;letter-spacing:0;font-style:normal}
+.tip:hover,.tip:focus-visible{color:var(--fg)}
+.panel.invert .tip{color:#5a5955}
+#tipBox{position:fixed;z-index:140;max-width:280px;background:var(--fg);color:var(--invert-fg);padding:10px 12px;font-size:12.5px;line-height:1.45;box-shadow:3px 3px 0 var(--plunk);pointer-events:none;opacity:0;transition:opacity .12s;left:0;top:0}
+#tipBox.show{opacity:1}
+.tabbar{display:flex;border-bottom:1px solid var(--line-2);overflow-x:auto;scrollbar-width:none}
+.tabbar button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 16px;font-weight:700;color:var(--muted);white-space:nowrap;margin-bottom:-1px}
+.tabbar button:hover{color:var(--fg)}
+.tabbar button.on{color:var(--fg);border-bottom-color:var(--fg)}
+.step-h{display:flex;align-items:center;gap:10px}
+.step-h h3{font-size:16px;font-weight:700}
+.step-n{width:24px;height:24px;flex:none;display:grid;place-items:center;background:var(--fg);color:var(--invert-fg);font:700 12px var(--mono)}
+.fc-act-h{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:center}
+.fc-act .t{font-weight:700}
+.fc-stress{border:1px dashed var(--line-2)!important;padding:12px!important}
+.fc-pick{border:1px solid var(--line-2);background:var(--panel-2);padding:14px;display:grid;gap:6px}
+.coin{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--warn)}
+.nav-more>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:8px 8px 4px}
+.nav-more>summary::after{content:"+";font-family:var(--mono);font-size:12px;color:var(--muted)}
+.nav-more[open]>summary::after{content:"\2212"}
+.nav-more>summary:hover .eyebrow{color:var(--fg)}
+.tourbtn{gap:8px;height:38px;text-decoration:none}
+.topbar .crumb{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.tourbtn b{width:18px;height:18px;display:grid;place-items:center;border-radius:50%;background:var(--fg);color:var(--invert-fg);font-size:11px}
+#tour{position:fixed;inset:0;z-index:130}
+.tour-hole{position:fixed;box-shadow:0 0 0 200vmax rgba(0,0,0,.74);outline:2px solid var(--fg);outline-offset:2px;transition:left .25s ease,top .25s ease,width .25s ease,height .25s ease;pointer-events:none}
+.tour-card{position:fixed;width:min(380px,calc(100vw - 32px));background:var(--panel);border:1px solid var(--fg);padding:18px;display:grid;gap:12px;box-shadow:5px 5px 0 var(--plunk);transition:left .25s ease,top .25s ease}
+.tour-card h3{font-family:var(--display);font-size:24px;line-height:1.1}
+.tour-card p{color:var(--fg-2);font-size:13.5px}
+.tour-dots{display:flex;gap:4px}.tour-dots i{width:14px;height:3px;background:var(--line-2)}.tour-dots i.on{background:var(--fg)}
+#tourPrompt{position:fixed;right:24px;bottom:24px;z-index:96;width:min(340px,calc(100vw - 32px));background:var(--fg);color:var(--invert-fg);padding:16px 18px;display:grid;gap:10px;box-shadow:5px 5px 0 var(--plunk)}
+#tourPrompt .link{color:var(--invert-fg)}
+@media (max-width:860px){.hide-sm{display:none}.tourbtn{padding:7px 10px}#tourPrompt{right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+.msg{overflow-wrap:anywhere}
 </style>
 
 <!-- ================= LOGIN ================= -->
@@ -387,6 +426,7 @@ select.tf{appearance:none;background-image:linear-gradient(45deg,transparent 50%
       <button class="iconbtn mobile-only" id="menuBtn" aria-label="Open menu"></button>
       <span class="crumb" id="crumb">Home</span>
       <span class="spacer"></span>
+      <a class="chip tourbtn" id="mobBtn" href="mobile.html" target="_blank" rel="noopener" title="Opens the mobile demo in a new tab"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="1.5"/><path d="M11 18h2"/></svg><span class="hide-sm">See mobile demo ↗</span></a>
       <button class="chip tourbtn" id="tourBtn" title="How this prototype works" aria-label="Start the guided tour"><b>?</b><span class="hide-sm">How it works</span></button>
       <button class="iconbtn" id="maskBtn" title="Hide balances" aria-label="Hide balances"></button>
       <button class="iconbtn" id="askBtn" title="Ask the planner" aria-label="Ask the planner"></button>
@@ -758,6 +798,7 @@ const IC = {
   goal: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
   card: '<rect x="2.5" y="5.5" width="19" height="13"/><path d="M2.5 10h19M6 15h4"/>',
   score: '<path d="M4 17a8 8 0 1 1 16 0"/><path d="m12 17 4-6"/>',
+  phone: '<rect x="7" y="3" width="10" height="18" rx="1.5"/><path d="M11 18h2"/>',
   auto: '<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.5"/>',
   chat: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/>',
   spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',
@@ -1788,7 +1829,7 @@ PAGES.autopilot = () => {
 /* ---------------- AI PLANNER ---------------- */
 let chatLog = [];
 let sampleFn = null, sampleChecked = false;
-const SUGGEST = ["How much did I spend last month?", "Can I afford a ₹1 lakh holiday next month?", "Why has my net worth changed this month?", "How much money should I keep in my savings account?", "Which of my credit cards is costing me money?", "What happens if I increase my SIP by ₹5,000?"];
+const SUGGEST = ["What happens to my credit score if I take the ₹3 lakh CRED Cash loan?", "Should I turn on autopay for all my cards?", "How much did I spend last month?", "Can I afford a ₹1 lakh holiday next month?", "Why has my net worth changed this month?", "How much money should I keep in my savings account?", "Which of my credit cards is costing me money?", "What happens if I increase my SIP by ₹5,000?"];
 function parseAmount(q) {
   const m = q.replace(/,/g, "").match(/(?:₹|rs\.?|inr)?\s*(\d+(?:\.\d+)?)\s*(lakh|lac|l\b|k\b|thousand|cr|crore)?/i);
   if (!m) return null; let v = parseFloat(m[1]); const u = (m[2] || "").toLowerCase();
@@ -1866,9 +1907,25 @@ const AI_RULES = `You are the AI financial planner inside a personal money app (
 - Say clearly which figures are verified data and which are estimates or assumptions.
 - Never promise returns, never tell them to buy or sell a specific security; for personalised investment advice say a SEBI-registered investment adviser would be needed.
 - If the data can't answer the question, say what's missing.
+- When tools are offered, use them for numbers instead of working them out yourself: forecast_credit_score for ANY question about how something would change the credit score (borrowing, CRED Cash, autopay, paying early, a limit increase, an FD-backed card, a missed payment); run_calculator for spending, affordability, net-worth change, savings, card costs, SIP changes, subscriptions and goals. Quote the tool's figures.
+- Product principles: be useful before selling. Never push borrowing; if a loan isn't needed or doesn't help, say so plainly. For any credit product name the partner, the rate and the EMI. Healthy habits (autopay, paying before the statement date) earn CRED coins; borrowing never does.
 - Plain text only. You may use **bold** for key numbers. No headings, no tables.
 End with one line starting "Basis:" naming the data you used.
 DATA: `;
+function fcTool(i) {
+  const p = PERSONAS.aarav, amt = Number(i.loan_amount) || 0;
+  const plan = { autopay: !!i.autopay, early: !!i.pay_before_statement, loan: amt > 0, limit: !!i.limit_increase, secured: !!i.fd_backed_card, stress: !!i.miss_one_payment };
+  const L = { amt: clamp(Math.round(amt / 10000) * 10000 || p.defLoan[0], 10000, p.maxLoan), ten: [6, 12, 24, 36].includes(Number(i.loan_tenure_months)) ? Number(i.loan_tenure_months) : 24, purpose: i.loan_purpose === "pay_off_cards" ? "consolidate" : "spend" };
+  const h = clamp(Math.round(Number(i.months) || 6), 1, 24);
+  const v = fcScoreAt(p, plan, L, h), vb = fcScoreAt(p, {}, L, h), phi = SM.shap(fcFeatures(p, {}, L, h), fcFeatures(p, plan, L, h));
+  const out = { member: "Aarav", score_today: fcAnchor(p), horizon_months: h, predicted_with_plan: Math.round(v), range_80pct: [Math.round(v - fcHW(h)), Math.round(v + fcHW(h))], predicted_if_nothing_changes: Math.round(vb),
+    trajectory: [1, 3, 6, 12, 24].map((t) => ({ month: t, with_plan: Math.round(fcScoreAt(p, plan, L, t)), no_change: Math.round(fcScoreAt(p, {}, L, t)) })),
+    points_by_factor_vs_no_change: Object.fromEntries(SM.groups.map(([g], k) => [g, Math.round(phi[k])])),
+    already_on: p.autopayNow ? ["autopay"] : [], model: `gradient-boosted trees, typical error ±${SCORE_MODEL.metrics.mae} points, trained on synthetic bureau-style profiles` };
+  if (plan.loan) { const li = fcLoanInfo(p, L); out.loan = { amount: L.amt, tenure_months: L.ten, purpose: L.purpose === "consolidate" ? "pay off card balances" : "new expense", partner: "Partner NBFC", rate_pct: p.rate, emi: Math.round(li.emi), total_interest: Math.round(li.cost), emi_share_of_income_pct: +(li.foir * 100).toFixed(1), passes_suitability: li.suitable }; }
+  return { out, state: { who: "aarav", h: [3, 6, 12, 24].reduce((a, b) => (Math.abs(b - h) < Math.abs(a - h) ? b : a)), plan, loan: L } };
+}
+let llmOff = false;
 function mdLite(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>"); }
 PAGES.planner = () => {
   const html = `
@@ -1877,13 +1934,13 @@ PAGES.planner = () => {
     <div class="panel">
       <div class="chat" id="chat" aria-live="polite"></div>
       <div class="tabs" id="sugg">${SUGGEST.map((q) => `<button class="chip">${q}</button>`).join("")}</div>
-      <form class="composer" id="chatForm"><input class="tf" id="chatIn" placeholder="e.g. Can I afford a ₹75,000 phone this month?" autocomplete="off" aria-label="Your question"><button class="btn" type="submit">Ask</button></form>
+      <form class="composer" id="chatForm"><input class="tf" id="chatIn" placeholder="e.g. Can I afford a ₹75,000 phone this month?" autocomplete="off" aria-label="Your question"><button class="btn" type="submit" id="chatSend">Ask</button><button class="btn ghost" type="button" id="chatStop" hidden>Stop</button></form>
     </div>
     <div class="stack-lg">
       <div class="panel"><p class="eyebrow">How answers are built</p>
-        <div class="rows small">${[["1 · Data", "Balances, transactions and holdings fetched with your consent"], ["2 · Calculation engine", "Deterministic, tested maths for balances, forecasts and goals"], ["3 · Explanation", "The assistant explains the numbers; it never invents them"], ["4 · Action", "Anything that moves money needs your separate approval"]].map(([a, b]) => `<div class="row"><div class="grow"><div class="t">${a}</div><div class="s">${b}</div></div></div>`).join("")}</div>
+        <div class="rows small">${[["1 · Data", "Balances, transactions and holdings fetched with your consent"], ["2 · Calculation engine", "Deterministic, tested maths for balances, forecasts and goals"], ["3 · Explanation", "Gemini (an LLM) explains the numbers; it never invents them"], ["4 · Action", "Anything that moves money needs your separate approval"]].map(([a, b]) => `<div class="row"><div class="grow"><div class="t">${a}</div><div class="s">${b}</div></div></div>`).join("")}</div>
       </div>
-      <div class="panel"><p class="eyebrow">Open questions</p><p class="small fg2" id="aiStatus">Questions outside the six common ones are sent to Claude with a summary of this member's dummy data, when this page is allowed to use Claude.</p></div>
+      <div class="panel"><div class="between"><p class="eyebrow">Assistant</p><span id="aiPill"><span class="pill plain">Checking…</span></span></div><b id="aiMode" style="font-size:16px">Connecting to Gemini…</b><p class="small fg2" id="aiStatus">Checking whether this view can use Gemini.</p></div>
     </div>
   </div>`;
   const mount = () => {
@@ -1894,24 +1951,61 @@ PAGES.planner = () => {
       chatLog.forEach((m, i) => m.chart && drawMini("mc" + i, m.chart));
       chat.scrollTop = chat.scrollHeight;
     };
+    const stripHtml = (h) => String(h || "").replace(/<tr>/g, "\n").replace(/<\/t[dh]>/g, " | ").replace(/<br\s*\/?>|<\/p>/g, "\n").replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/[ \t]+/g, " ").replace(/\n\s+/g, "\n").trim();
+    let ctl = null;
+    const setBusy = (on) => { $("#chatStop").hidden = !on; $("#chatSend").disabled = on; };
+    $("#chatStop").addEventListener("click", () => ctl && ctl.abort());
+    chat.addEventListener("click", (e) => { const a = e.target.closest("[data-open-fc]"); if (!a) return; const m = chatLog[+a.dataset.openFc]; if (m && m.fc) { fcState = { ...fcFresh("aarav"), ...structuredClone(m.fc) }; scoreTab = "forecast"; } });
+    const updateStatus = (sample) => {
+      const live = sample && !llmOff;
+      $("#aiPill").innerHTML = live ? `<span class="pill good">Live</span>` : `<span class="pill plain">Offline</span>`;
+      $("#aiMode").textContent = live ? "Gemini + calculators" : "Built-in answers";
+      $("#aiStatus").textContent = live ? "Every question goes to Gemini. It calls the calculation engine and the ML credit-score model for the numbers, then explains them in plain language." : llmOff ? "Gemini isn't set up on this site, so the calculation engine answers the common questions." : "Gemini switches on when this site has a Gemini API key. Until then, the calculation engine answers the common questions.";
+    };
+    getSample().then(updateStatus);
+    const builtIn = (q, note) => { const a = brain(q) || { html: `<p>I can answer questions about spending, what you can afford, net worth changes, how much to keep in savings, card costs, SIP changes, your score, subscriptions and goals. Try rephrasing, or pick a suggestion below.</p>` }; if (note) a.badge = (a.badge ? a.badge + " " : "") + `<span class="small muted">${note}</span>`; return a; };
     const ask = async (q) => {
-      if (!q.trim()) return;
+      if (!q.trim() || ctl) return;
       chatLog.push({ me: true, text: q });
-      const a = brain(q);
-      if (a) { chatLog.push(a); drawMsgs(); return; }
-      const thinking = { html: `<span class="typing"><i></i><i></i><i></i></span>` }; chatLog.push(thinking); drawMsgs();
       const sample = await getSample();
-      if (!sample) { Object.assign(thinking, { html: `<p>I can answer questions about spending, what you can afford, net worth changes, how much to keep in savings, card costs, SIP changes, your score, subscriptions and goals. Try rephrasing, or pick a suggestion below.</p>`, badge: `<span class="small muted">Open-ended answers need Claude, which isn't available in this view.</span>` }); drawMsgs(); return; }
+      if (!sample || llmOff) { chatLog.push(builtIn(q)); drawMsgs(); return; }
+      const msg = { html: `<span class="typing"><i></i><i></i><i></i></span>`, used: new Set() }; chatLog.push(msg); drawMsgs();
+      let streamed = false;
+      const working = (label) => { if (!streamed) { msg.html = `<span class="typing"><i></i><i></i><i></i></span> <span class="small muted">${label}…</span>`; drawMsgs(); } };
+      const lim = await sample.limits().catch(() => null);
+      const tools = lim && lim.tools ? [
+        { name: "run_calculator", description: "Runs the app's tested calculation engine on one plain-English money question (spending, affordability of a purchase, net-worth change, how much to keep in savings, which cards cost money, SIP changes, subscriptions, goals). Returns the computed answer and method as text, or says no calculator covers it.",
+          inputSchema: { type: "object", properties: { question: { type: "string", description: "The member's question, rephrased if needed so it is self-contained." } }, required: ["question"] },
+          execute: (i) => { working("Running the calculation engine"); const r = brain(String(i.question || "")); if (!r) return "No calculator covers this question. Answer from DATA or say what's missing."; msg.used.add("calculation engine"); if (r.chart && !msg.chart) msg.chart = r.chart; return { answer: stripHtml(r.html).slice(0, 3000), method: stripHtml(r.how).slice(0, 1000) }; } },
+        { name: "forecast_credit_score", description: "Runs the app's ML credit-score model for Aarav. Give the plan; returns today's score, the predicted score with the plan and if nothing changes, an 80% range, a month-by-month trajectory, points by factor, and loan EMI and suitability when a loan is included.",
+          inputSchema: { type: "object", properties: {
+            months: { type: "integer", description: "Forecast horizon, 1-24. Default 6." },
+            loan_amount: { type: "number", description: "CRED Cash loan in rupees; 0 or omit for no loan. Aarav's pre-approved line is 300000." },
+            loan_tenure_months: { type: "integer", enum: [6, 12, 24, 36] },
+            loan_purpose: { type: "string", enum: ["new_expense", "pay_off_cards"] },
+            autopay: { type: "boolean" }, pay_before_statement: { type: "boolean" }, limit_increase: { type: "boolean" }, fd_backed_card: { type: "boolean" },
+            miss_one_payment: { type: "boolean", description: "Stress test: one 30-day late payment in month 2." } } },
+          execute: (i) => { working("Running the credit-score model"); const r = fcTool(i); msg.used.add("ML credit-score model"); msg.fc = r.state; return r.out; } },
+      ] : null;
+      const turns = chatLog.filter((m) => m !== msg).slice(-8).map((m) => ({ role: m.me ? "user" : "assistant", content: m.me ? m.text : (m.raw || stripHtml(m.html)) })).filter((t) => t.content);
+      while (turns.length && turns[0].role !== "user") turns.shift();
+      turns[0] = { role: "user", content: AI_RULES + aiContext() + "\n\nQuestion: " + turns[0].content };
+      ctl = new AbortController(); setBusy(true);
       try {
-        const turns = chatLog.filter((m) => m !== thinking).slice(-6).map((m) => ({ role: m.me ? "user" : "assistant", content: m.me ? m.text : (m.raw || m.html.replace(/<[^>]+>/g, " ")) }));
-        while (turns.length && turns[0].role !== "user") turns.shift();
-        turns[0] = { role: "user", content: AI_RULES + aiContext() + "\n\nQuestion: " + turns[0].content };
-        const { text } = await sample(turns, { cache: false, modelTier: "quick", onText: ({ text }) => { thinking.html = `<p>${mdLite(text)}</p>`; drawMsgs(); } });
-        Object.assign(thinking, { raw: text, html: `<p>${mdLite(text)}</p>`, badge: `<span class="pill warn">Claude</span> <span class="small muted">Explained from this member's dummy data. Check figures against the calculation pages.</span>` });
+        const opts = { cache: false, modelTier: "quick", signal: ctl.signal, onText: ({ text }) => { streamed = true; msg.html = `<p>${mdLite(text)}</p>`; drawMsgs(); } };
+        if (tools) { opts.tools = tools; delete opts.cache; }
+        const { text, truncated } = await sample(turns, opts);
+        const idx = chatLog.indexOf(msg);
+        Object.assign(msg, { raw: text, html: `<p>${mdLite(text)}</p>${truncated ? `<p class="small muted">The answer was cut short. Ask for less at a time.</p>` : ""}${msg.fc ? `<p><a class="link small" href="#score" data-open-fc="${idx}">Open this plan in the score forecaster</a></p>` : ""}`,
+          badge: `<span class="pill warn">Gemini</span> <span class="small muted">${msg.used.size ? "Numbers from the " + [...msg.used].join(" and ") : "Explained from this member's dummy data"}</span>` });
       } catch (e) {
-        Object.assign(thinking, { html: `<p>${e && e.code === "not_granted" ? "Claude wasn't allowed for this page, so I can only answer the common questions." : e && e.code === "rate_limited" ? "Too many questions at once. Try again in a minute." : "Couldn't get an answer just now."}</p>` });
-      }
-      drawMsgs();
+        const code = e && e.code;
+        if (code === "cancelled") msg.html = e.text ? `<p>${mdLite(e.text)}</p><p class="small muted">Stopped.</p>` : `<p class="small muted">Stopped.</p>`;
+        else if (["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].includes(code)) { llmOff = true; updateStatus(sample); Object.assign(msg, builtIn(q, "Gemini isn't set up on this site, so this answer comes from the calculation engine.")); }
+        else if (code === "rate_limited") msg.html = `<p>Too many questions at once. Wait a minute, then ask again.</p>`;
+        else if (code === "refused") msg.html = `<p>Gemini couldn't answer that. Try asking it a different way.</p>`;
+        else msg.html = (e && e.text ? `<p>${mdLite(e.text)}</p>` : "") + `<p class="small muted">The answer didn't finish. Ask again.</p>`;
+      } finally { ctl = null; setBusy(false); drawMsgs(); }
     };
     $("#chatForm").addEventListener("submit", (e) => { e.preventDefault(); const v = $("#chatIn").value; $("#chatIn").value = ""; ask(v); });
     $$("#sugg .chip").forEach((b) => b.addEventListener("click", () => ask(b.textContent)));
@@ -2219,7 +2313,7 @@ PAGES.account = () => {
     security: `<div class="rows">${[["applock", "App lock", "Ask for PIN when the app opens"], ["biometric", "Biometric unlock", "Use fingerprint or face"], ["hideOnSwitch", "Hide screen in app switcher", ""]].map(([k, t, s]) => row(t, s, toggleHTML("sc-" + k, S.security[k], t))).join("")}
       ${row("Active sessions", "This browser · Mumbai", `<button class="btn ghost sm" id="signOutAll">Sign out others</button>`)}</div>`,
     about: `<p class="fg2" style="max-width:62ch">This is a working concept for a "money operating system" inside a premium credit-card rewards app. It combines a Money OS (safe to spend, financial calendar, unified wealth, goals, card intelligence, Autopilot, an AI planner) with a consent-based personalisation layer that shows one useful credit, insurance or payment offer at a time.</p>
-      <p class="fg2" style="max-width:62ch">Every number belongs to a fictional member and is dummy data. Calculations (safe to spend, forecasts, goal maths, card rewards) run live in this page from that data. Nothing you enter is sent anywhere, except open-ended planner questions sent to Claude when you allow it.</p>
+      <p class="fg2" style="max-width:62ch">Every number belongs to a fictional member and is dummy data. Calculations (safe to spend, forecasts, goal maths, card rewards) run live in this page from that data. Nothing you enter is sent anywhere, except open-ended planner questions sent to Gemini when you allow it.</p>
       <div class="rows">${row("Version", "Concept build", `<span class="tag">v0.9</span>`)}${row("Data", "Dummy, fictional member", `<span class="tag">Demo</span>`)}</div>
       <div><button class="btn ghost sm" id="resetDemo">Reset demo</button></div>`,
   };
@@ -2255,6 +2349,7 @@ PAGES.account = () => {
    SHELL — navigation, routing, login, alerts
    ===================================================================== */
 const NAV = [
+  ["Demo", [["mobile", "See mobile demo", "phone"]]],
   ["Today", [["home", "Home", "home"], ["spend", "Safe to spend", "spend"], ["calendar", "Calendar", "cal"]]],
   ["Your money", [["wealth", "Net worth", "wealth"], ["goals", "Goals", "goal"], ["cards", "Cards", "card"], ["score", "Credit score", "score"]]],
   ["Advice", [["for-you", "For you", "spark"], ["planner", "AI planner", "chat"], ["autopilot", "Autopilot", "auto"]]],
@@ -2268,7 +2363,7 @@ const DOCK = [["home", "Home", "home"], ["spend", "Spend", "spend"], ["score", "
 
 function drawNav() {
   const cur = currentRoute();
-  const link = ([k, t, ic]) => `<a href="#${k}" class="${cur === k ? "active" : ""}" ${cur === k ? 'aria-current="page"' : ""}>${icon(ic)}${t}${k === "for-you" && topOffer() ? '<span class="badge">1</span>' : ""}</a>`;
+  const link = ([k, t, ic]) => k === "mobile" ? `<a href="mobile.html" target="_blank" rel="noopener" data-k="mobile" title="Opens in a new tab">${icon(ic)}${t}<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" style="margin-left:auto;opacity:.7"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg></a>` : `<a href="#${k}" class="${cur === k ? "active" : ""}" ${cur === k ? 'aria-current="page"' : ""}>${icon(ic)}${t}${k === "for-you" && topOffer() ? '<span class="badge">1</span>' : ""}</a>`;
   $("#nav").innerHTML = NAV.map(([g, items, fold]) => {
     if (!fold) return `<div class="nav-group"><span class="eyebrow">${g}</span>${items.map(link).join("")}</div>`;
     const open = navOpen[g] ?? items.some(([k]) => k === cur);
@@ -2389,6 +2484,7 @@ const TOUR = [
   { r: "score", tab: "forecast", sel: '[data-tour="fc-plan"]', t: "Build a plan with CRED products", b: "Switch on autopay, early payment, a CRED Cash loan and more. Each shows its predicted score change. Coins reward healthy habits only, never borrowing." },
   { r: "score", tab: "forecast", sel: '[data-tour="fc-result"]', t: "See the predicted score", b: "The model scores every month for two years: the plan against doing nothing, with an 80% range and a breakdown of why the score moves." },
   { r: "hq", sel: ".page-head", t: "Behind the scenes", b: "<b>Program HQ</b> tracks the BRD's KPIs and guardrails. <b>Partner insights</b> shows brands anonymised audiences only, never member-level data. Both sit under 'CRED team view'." },
+  { r: "home", sel: () => (innerWidth <= 860 ? "#mobBtn" : '#nav a[data-k="mobile"]'), t: "See it on a phone", b: "<b>See mobile demo</b> opens in a new tab: the forecaster and AI planner inside a clickable phone, with its own five-step walkthrough." },
   { r: null, sel: "#tourBtn", t: "You're set", b: "Hover or tap any <span class='tip' style='pointer-events:none'>i</span> for a quick explanation. Restart this tour any time from here." },
 ];
 let tourI = -1;
@@ -2415,7 +2511,7 @@ async function tourShow() {
     <div class="between"><div class="tour-dots">${TOUR.map((_, i) => `<i class="${i <= tourI ? "on" : ""}"></i>`).join("")}</div>
     <div class="split" style="gap:10px">${tourI ? `<button class="btn ghost sm" data-tour-go="back">Back</button>` : ""}<button class="btn sm" data-tour-go="${last ? "end" : "next"}">${last ? "Done" : tourI ? "Next" : "Start"}</button></div></div>`;
   const sel = typeof st.sel === "function" ? st.sel() : st.sel, el = sel && $(sel);
-  if (el && sel !== "#nav" && sel !== "#dock" && sel !== "#tourBtn") { el.scrollIntoView({ block: el.offsetHeight > innerHeight * 0.6 ? "start" : "center" }); window.scrollBy(0, el.offsetHeight > innerHeight * 0.6 ? -84 : 0); await wait(60); }
+  if (el && !sel.startsWith("#nav") && sel !== "#dock" && sel !== "#tourBtn" && sel !== "#mobBtn") { el.scrollIntoView({ block: el.offsetHeight > innerHeight * 0.6 ? "start" : "center" }); window.scrollBy(0, el.offsetHeight > innerHeight * 0.6 ? -84 : 0); await wait(60); }
   tourPlace();
   root.querySelector(".tour-card .btn:last-child")?.focus();
 }
