@@ -371,6 +371,35 @@ details.more[open]>summary::before{content:"\25BE"}
 #tourPrompt .link{color:var(--invert-fg)}
 @media (max-width:860px){.hide-sm{display:none}.tourbtn{padding:7px 10px}#tourPrompt{right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
 .msg{overflow-wrap:anywhere}
+/* ---------- consent: login tick box + permissions screen ---------- */
+.consent-box{display:grid;gap:12px;border:1px solid var(--line-2);padding:14px;transition:border-color .2s}
+.consent-box.err{border-color:var(--bad)}
+.check{display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;align-items:start;font-size:13px;color:var(--fg-2);cursor:pointer;line-height:1.5}
+.check input{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:1.5px solid var(--line-2);background:transparent;margin:0;display:grid;place-items:center;cursor:pointer}
+.check input:checked{background:var(--fg);border-color:var(--fg)}
+.check input:checked::after{content:"\2713";color:var(--invert-fg);font-weight:800;font-size:14px;line-height:1}
+.check .link{font-size:inherit}
+.docs{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.docs .d{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;font-size:12px;color:var(--muted)}
+.docs .d b{color:var(--fg);font-weight:700;font-size:12.5px}
+.docs .d button{grid-row:span 2;align-self:center}
+#tcHelp.err{color:var(--bad)}
+#perms{position:fixed;inset:0;z-index:120;background:var(--bg);overflow-y:auto;padding-top:calc(32px + env(safe-area-inset-top,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.perms-in{max-width:900px;margin:0 auto;display:grid;gap:20px}
+.perms-in h1{font-family:var(--display);font-size:clamp(30px,4vw,44px);line-height:1.02;letter-spacing:-.015em}
+.perm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.perm{border:1px solid var(--line);background:var(--panel);padding:18px;display:grid;gap:12px;align-content:start;transition:border-color .2s,background .2s}
+.perm.on{border-color:var(--fg);background:var(--panel-2)}
+.perm.focus{outline:2px solid var(--warn);outline-offset:3px}
+.perm h3{font-size:16px;font-weight:700}
+.perm p{font-size:13px;color:var(--fg-2)}
+.perm dl{display:grid;grid-template-columns:92px minmax(0,1fr);gap:6px 12px;margin:0;font-size:12.5px;border-top:1px dashed var(--line-2);padding-top:10px}
+.perm dt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.perm dd{margin:0;color:var(--fg-2)}
+.perm-bar{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--line-2);padding:14px 0 calc(18px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.permnote{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:1px solid var(--warn);background:color-mix(in srgb,var(--warn) 8%,transparent);padding:12px 16px;font-size:13px;color:var(--fg-2)}
+.permnote b{color:var(--fg)}
+@media (max-width:860px){.perm-grid{grid-template-columns:minmax(0,1fr)}.perm dl{grid-template-columns:minmax(0,1fr)}}
 </style>
 
 <!-- ================= LOGIN ================= -->
@@ -388,7 +417,7 @@ details.more[open]>summary::before{content:"\25BE"}
   <div class="login-form">
     <form class="login-card" id="loginForm" autocomplete="off">
       <div>
-        <p class="eyebrow" id="loginStep">Step 1 of 2</p>
+        <p class="eyebrow" id="loginStep">Step 1 of 3</p>
         <h2 class="display" style="font-size:34px;margin-top:8px" id="loginTitle">Sign in to your account</h2>
       </div>
       <div class="field" id="phoneField">
@@ -403,12 +432,23 @@ details.more[open]>summary::before{content:"\25BE"}
         </div>
         <p class="small muted">Demo mode: any 4 digits work. <button type="button" class="link small" id="otpBack">Change number</button></p>
       </div>
+      <div class="consent-box" id="tcBox">
+        <label class="check" for="tcAgree"><input type="checkbox" id="tcAgree" aria-describedby="tcHelp"><span>I have read and agree to the <button type="button" class="link" data-doc="terms">Terms &amp; Conditions</button> and the <button type="button" class="link" data-doc="privacy">Privacy Notice</button>, and I understand the <button type="button" class="link" data-doc="core">core service permissions</button>.</span></label>
+        <div class="docs">
+          <div class="d"><b>Terms &amp; Conditions</b><button type="button" class="link small" data-doc="terms">Read</button><span>The agreement governing your use of Compass.</span></div>
+          <div class="d"><b>Privacy Notice</b><button type="button" class="link small" data-doc="privacy">Read</button><span>What information we collect, how we use it, how long we retain it and who may process it.</span></div>
+          <div class="d"><b>Core service permissions</b><button type="button" class="link small" data-doc="core">Read</button><span>Permissions required for specific features you choose to use.</span></div>
+        </div>
+        <p class="small muted" id="tcHelp">Tick the box to continue. You'll choose optional data permissions next.</p>
+      </div>
       <button class="btn block" type="submit" id="loginBtn">Send code</button>
       <button class="btn ghost block" type="button" id="demoBtn">Explore with demo account</button>
       <div class="notice">This is a product concept with dummy data, not a real financial service. Don't enter real card numbers, PINs or passwords anywhere in it.</div>
     </form>
   </div>
 </section>
+
+<section id="perms" hidden aria-label="Financial data permissions"></section>
 
 <!-- ================= APP ================= -->
 <div id="app" hidden>
@@ -654,6 +694,8 @@ const DEFAULT_STATE = {
     cats: { credit: false, insurance: true, payments: true },
   },
   security: { applock: true, biometric: true, hideOnSwitch: false },
+  tcAccepted: null, permsDone: false, permsAt: null, permsReceipt: null,
+  perms: { aa: false, credit: false, invest: false, insurance: false, ai: false, family: false },
   goalOrder: ["ef", "car", "japan", "home"],
   dismissedOffers: [], acceptedOffers: [],
   subsDecision: {},
@@ -1957,10 +1999,10 @@ PAGES.planner = () => {
     $("#chatStop").addEventListener("click", () => ctl && ctl.abort());
     chat.addEventListener("click", (e) => { const a = e.target.closest("[data-open-fc]"); if (!a) return; const m = chatLog[+a.dataset.openFc]; if (m && m.fc) { fcState = { ...fcFresh("aarav"), ...structuredClone(m.fc) }; scoreTab = "forecast"; } });
     const updateStatus = (sample) => {
-      const live = sample && !llmOff;
+      const live = sample && !llmOff && S.perms.ai;
       $("#aiPill").innerHTML = live ? `<span class="pill good">Live</span>` : `<span class="pill plain">Offline</span>`;
       $("#aiMode").textContent = live ? "Gemini + calculators" : "Built-in answers";
-      $("#aiStatus").textContent = live ? "Every question goes to Gemini. It calls the calculation engine and the ML credit-score model for the numbers, then explains them in plain language." : llmOff ? "Gemini isn't set up on this site, so the calculation engine answers the common questions." : "Gemini switches on when this site has a Gemini API key. Until then, the calculation engine answers the common questions.";
+      $("#aiStatus").textContent = !S.perms.ai ? "The AI planner permission is off, so nothing is sent to the AI processor. The calculation engine answers the common questions." : live ? "Every question goes to Gemini. It calls the calculation engine and the ML credit-score model for the numbers, then explains them in plain language." : llmOff ? "Gemini isn't set up on this site, so the calculation engine answers the common questions." : "Gemini switches on when this site has a Gemini API key. Until then, the calculation engine answers the common questions.";
     };
     getSample().then(updateStatus);
     const builtIn = (q, note) => { const a = brain(q) || { html: `<p>I can answer questions about spending, what you can afford, net worth changes, how much to keep in savings, card costs, SIP changes, your score, subscriptions and goals. Try rephrasing, or pick a suggestion below.</p>` }; if (note) a.badge = (a.badge ? a.badge + " " : "") + `<span class="small muted">${note}</span>`; return a; };
@@ -1968,7 +2010,7 @@ PAGES.planner = () => {
       if (!q.trim() || ctl) return;
       chatLog.push({ me: true, text: q });
       const sample = await getSample();
-      if (!sample || llmOff) { chatLog.push(builtIn(q)); drawMsgs(); return; }
+      if (!sample || llmOff || !S.perms.ai) { chatLog.push(builtIn(q, !S.perms.ai ? "AI planner permission is off, so this came from the calculation engine." : "")); drawMsgs(); return; }
       const msg = { html: `<span class="typing"><i></i><i></i><i></i></span>`, used: new Set() }; chatLog.push(msg); drawMsgs();
       let streamed = false;
       const working = (label) => { if (!streamed) { msg.html = `<span class="typing"><i></i><i></i><i></i></span> <span class="small muted">${label}…</span>`; drawMsgs(); } };
@@ -2297,7 +2339,7 @@ PAGES.account = () => {
       ${DATA.cards.map((c) => row(`${c.name} card`, `•• ${c.mask} · bill data`, `<span class="tag">Bill pay</span>`)).join("")}
       ${row("Property & vehicle", "Entered by you · last updated Jul 2026", `<span class="tag">Manual</span>`)}</div>
       <div class="split"><button class="btn sm" id="linkMore">${icon("plus", 14)} Link another account</button></div>`,
-    consent: `<p class="fg2">You decide what we read and what we use it for. Turning something off takes effect immediately.</p>
+    consent: `<p class="fg2">You decide what we read and what we use it for. Turning something off takes effect immediately.</p>${permsSummaryHTML()}
       <p class="eyebrow">Data we can read</p><div class="rows">${[["billpay", "Bill payment history", "Card bills, utilities, rent paid through the app"], ["cardspend", "Card spending", "Merchant and category of card transactions"], ["aa_bank", "Bank accounts (AA)", "Balances and transactions"], ["aa_invest", "Investments (AA)", "Funds, stocks, NPS, EPF"], ["insurance_docs", "Insurance documents", "Policy dates and cover amounts"]].map(([k, t, s]) => row(t, s, toggleHTML("cs-" + k, S.consent.sources[k], t))).join("")}</div>
       <p class="eyebrow">What we use it for</p><div class="rows">${[["insights", "Insights and planning", "Safe to spend, calendar, goals, the planner"], ["offers", "Personalised offers", "One suggestion at a time in For You"], ["partnerAggregate", "Anonymised partner insights", "Counted in aggregate cohorts of 1,000+ people. Never member-level."]].map(([k, t, s]) => row(t, s, toggleHTML("cu-" + k, S.consent.uses[k], t))).join("")}</div>
       <p class="eyebrow">Offer categories</p><div class="rows">${[["credit", "Credit & loans"], ["insurance", "Insurance"], ["payments", "Payments & deposits"]].map(([k, t]) => row(t, "", toggleHTML("cc-" + k, S.consent.cats[k], t))).join("")}</div>
@@ -2384,6 +2426,7 @@ function route() {
   let page;
   try { page = PAGES[r](); } catch (e) { console.error(e); view.innerHTML = `<div class="panel"><p>Something went wrong drawing this page.</p><pre class="small muted">${esc(e.message)}</pre></div>`; return; }
   view.innerHTML = page.html;
+  permNotice(r);
   $("#crumb").textContent = TITLES[r] || "Home";
   drawNav();
   try { page.mount && page.mount(); } catch (e) { console.error(e); }
@@ -2414,13 +2457,13 @@ function showApp() {
   $("#app").hidden = false;
   if (!location.hash) { try { history.replaceState(null, "", "#home"); } catch (e) {} }
   syncMask(); route();
-  setTimeout(tourPrompt, 700);
+  if (!S.permsDone) showPerms(() => setTimeout(tourPrompt, 500)); else setTimeout(tourPrompt, 700);
 }
-function logout() { S.authed = false; save(); killCharts(); $("#app").hidden = true; $("#login").classList.remove("hidden"); $("#login").hidden = false; resetLogin(); ROUTE = null; try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} }
+function logout() { $("#perms").hidden = true; S.authed = false; save(); killCharts(); $("#app").hidden = true; $("#login").classList.remove("hidden"); $("#login").hidden = false; resetLogin(); ROUTE = null; try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} }
 
 /* ---------- login ---------- */
 let loginStep = 1;
-function resetLogin() { loginStep = 1; $("#phoneField").classList.remove("hidden"); $("#otpField").classList.add("hidden"); $("#loginBtn").textContent = "Send code"; $("#loginStep").textContent = "Step 1 of 2"; $("#loginTitle").textContent = "Sign in to your account"; $$("#otpBoxes input").forEach((i) => (i.value = "")); }
+function resetLogin() { loginStep = 1; $("#phoneField").classList.remove("hidden"); $("#otpField").classList.add("hidden"); $("#loginBtn").textContent = "Send code"; $("#loginStep").textContent = "Step 1 of 3"; $("#loginTitle").textContent = "Sign in to your account"; $$("#otpBoxes input").forEach((i) => (i.value = "")); }
 function heroCards() {
   const host = $("#heroCards"); if (!host) return;
   host.innerHTML = DATA.cards.slice(0, 4).map((c, i) => `<div class="ccard" style="position:absolute;width:min(300px,64%);left:${i * 11}%;top:${i * 14}px;background:${c.art};${c.dark ? "color:#0b0b0c;" : ""}transform:rotate(${-8 + i * 5}deg);z-index:${i}">
@@ -2438,17 +2481,19 @@ function initLogin() {
   $("#phone").addEventListener("input", (e) => (e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10)));
   $("#loginForm").addEventListener("submit", (e) => {
     e.preventDefault();
+    if (!tcCheck()) return;
     if (loginStep === 1) {
       if ($("#phone").value.length !== 10) { toast("Enter a 10-digit mobile number"); return; }
       loginStep = 2; $("#phoneField").classList.add("hidden"); $("#otpField").classList.remove("hidden");
-      $("#loginBtn").textContent = "Verify & sign in"; $("#loginStep").textContent = "Step 2 of 2"; $("#loginTitle").textContent = "We sent a code to +91 " + $("#phone").value.slice(0, 5) + " " + $("#phone").value.slice(5);
+      $("#loginBtn").textContent = "Verify & sign in"; $("#loginStep").textContent = "Step 2 of 3"; $("#loginTitle").textContent = "We sent a code to +91 " + $("#phone").value.slice(0, 5) + " " + $("#phone").value.slice(5);
       boxes[0].focus(); return;
     }
     if (!boxes.every((x) => x.value)) { toast("Enter all 4 digits"); return; }
     S.authed = true; save(); showApp();
   });
   $("#otpBack").addEventListener("click", resetLogin);
-  $("#demoBtn").addEventListener("click", () => { S.authed = true; save(); showApp(); });
+  $("#tcAgree").addEventListener("change", () => { if ($("#tcAgree").checked) { $("#tcBox").classList.remove("err"); $("#tcHelp").classList.remove("err"); $("#tcHelp").textContent = "Thanks. You'll choose optional data permissions next."; } });
+  $("#demoBtn").addEventListener("click", () => { if (!tcCheck()) return; S.authed = true; save(); showApp(); });
 }
 
 
@@ -2537,6 +2582,103 @@ function tourPrompt() {
   $("#tpGo").addEventListener("click", tourStart);
   $("#tpNo").addEventListener("click", () => { tourSeen(true); $("#tourPrompt").remove(); });
 }
+
+
+/* ---------- consent: documents, permissions screen, page notices ---------- */
+const AI_PROCESSOR = "Google LLC, through the Gemini API";
+const DOCS = {
+  terms: { t: "Terms & Conditions", sub: "The agreement governing your use of Compass.", body: `
+    <p><b>Who can use Compass.</b> Indian residents aged 18 or over with an Indian mobile number. One account per person.</p>
+    <p><b>What Compass is.</b> A money-management service that shows, calculates and explains your finances. It does not hold your money, lend, insure or sell investments itself.</p>
+    <p><b>Regulated partners.</b> Loans, insurance, deposits and investments are provided by regulated partners (banks and NBFCs under RBI, insurers under IRDAI, intermediaries under SEBI). Their own terms, rates and disclosures apply, and they make their own decisions.</p>
+    <p><b>Not personal advice.</b> Forecasts, scores and suggestions are estimates to help you decide. They are not investment, tax or legal advice.</p>
+    <p><b>Your responsibilities.</b> Keep your device and login secure, and give accurate information.</p>
+    <p><b>Changes and ending.</b> We'll tell you before material changes. You can close your account any time.</p>
+    <p><b>Disputes.</b> Governed by the laws of India. Contact our Grievance Officer first; unresolved complaints can go to the relevant regulator's ombudsman.</p>` },
+  privacy: { t: "Privacy Notice", sub: "What information we collect, how we use it, how long we retain it and who may process it.", body: `
+    <p><b>What we collect.</b> Your name, mobile number and email; device and security data; and, only with your permission, financial data such as balances, transactions, credit information, holdings and policies.</p>
+    <p><b>How we use it.</b> To run the features you switch on, keep your account secure, and meet legal obligations. We do not sell your personal data. Partners see only aggregated, anonymised audiences, never member-level data.</p>
+    <p><b>How long we keep it.</b> While your account is active and you haven't withdrawn consent, then deleted or anonymised, except where a law requires us to keep records for longer.</p>
+    <p><b>Who may process it.</b> Our cloud hosting provider; RBI-licensed Account Aggregators; authorised credit bureaus; the partner you choose for a product; and, if you switch on the AI planner, ${AI_PROCESSOR}.</p>
+    <p><b>Your rights (Digital Personal Data Protection Act, 2023).</b> See, correct or erase your data; withdraw any consent as easily as you gave it; nominate someone to act for you; and complain to our Grievance Officer or the Data Protection Board of India.</p>` },
+  core: { t: "Core service permissions", sub: "Permissions required for specific features you choose to use.", body: `
+    <p><b>Mobile number and one-time codes</b> to sign you in and confirm sensitive actions.</p>
+    <p><b>Notifications</b> for bill reminders and security alerts. You choose which ones in Settings.</p>
+    <p><b>Device and session information</b> to detect fraud and keep your account secure.</p>
+    <p>Everything else, including all financial data, is optional and asked for separately, one feature at a time, on the next screen.</p>` },
+};
+const PERMS = [
+  { k: "aa", t: "Bank account aggregation", d: "Allow Compass to retrieve selected financial information through an authorised Account Aggregator for balance tracking, expense categorisation and net-worth calculations.",
+    data: "Balances and transactions from the bank accounts you select", purpose: "Balance tracking, expense categorisation and net-worth calculations", to: "Compass, via an RBI-licensed Account Aggregator, from the banks you select. Valid 12 months; revoke any time." },
+  { k: "credit", t: "Credit information", d: "Allow the relevant authorised credit bureau or partner to provide your credit information for displaying your credit score and credit health.",
+    data: "Credit score, accounts, repayment history and recent enquiries from your credit report", purpose: "Showing your credit score and credit health, and the score forecaster", to: "Compass, from an authorised credit bureau through a soft enquiry that does not affect your score" },
+  { k: "invest", t: "Investment portfolio tracking", d: "Allow access to selected investment holdings and transaction information for portfolio tracking and performance analysis.",
+    data: "Mutual fund, demat, EPF and NPS holdings and transactions you select", purpose: "Portfolio tracking and performance analysis", to: "Compass, via an Account Aggregator from depositories and fund registrars" },
+  { k: "insurance", t: "Insurance information", d: "Allow access to selected insurance policy information for policy tracking, renewal reminders and coverage summaries.",
+    data: "Policy type, insurer, cover amount, premium and renewal date for policies you select", purpose: "Policy tracking, renewal reminders and coverage summaries", to: "Compass, from your insurers or an insurance repository" },
+  { k: "ai", t: "AI financial planner", d: "Allow Compass to use selected financial information to generate personalised budgeting insights, goal suggestions and financial summaries.",
+    data: "Summaries of balances, spending categories, goals and credit factors. Never account numbers or passwords.", purpose: "Personalised budgeting insights, goal suggestions and financial summaries", to: "External AI processor: " + AI_PROCESSOR + ". Sent only when you ask the planner a question." },
+  { k: "family", t: "Family sharing", d: "Allow you to select specific goals, expenses, investments or other financial information to share with named family members.",
+    data: "Only the goals, expenses or investments you pick", purpose: "Shared visibility and planning with your household", to: "The family members you name. They see nothing else." },
+];
+const PERM_FOR = { spend: "aa", calendar: "aa", wealth: "invest", score: "credit", planner: "ai", protection: "insurance", family: "family" };
+function docModal(k) {
+  const d = DOCS[k]; if (!d) return;
+  modal(`<div class="between" style="flex-wrap:nowrap"><h2 class="display" style="font-size:26px">${d.t}</h2><button class="iconbtn" data-close aria-label="Close">${icon("x")}</button></div>
+    <p class="small muted">${d.sub}</p><div class="stack small fg2" style="gap:10px">${d.body}</div>
+    <p class="small muted" style="border-top:1px dashed var(--line-2);padding-top:10px">Illustrative summary for this prototype. Final legal text to be drafted with counsel.</p>
+    <button class="btn sm" data-close style="justify-self:start">Close</button>`);
+}
+function tcCheck() {
+  const ok = $("#tcAgree").checked;
+  $("#tcBox").classList.toggle("err", !ok); $("#tcHelp").classList.toggle("err", !ok);
+  if (!ok) { $("#tcHelp").textContent = "Please agree to the Terms & Conditions and Privacy Notice to continue."; $("#tcAgree").focus(); return false; }
+  S.tcAccepted = S.tcAccepted || new Date().toISOString(); save(); return true;
+}
+let permsDraft = null, permsAfter = null;
+function showPerms(after, focusKey) {
+  permsAfter = after || null; permsDraft = { ...S.perms };
+  const el = $("#perms"); el.hidden = false; renderPerms(focusKey); el.scrollTop = 0;
+  if (focusKey) requestAnimationFrame(() => $(`#perm-${focusKey}`)?.scrollIntoView({ block: "center" }));
+}
+function renderPerms(focusKey) {
+  const first = !S.permsDone, n = Object.values(permsDraft).filter(Boolean).length;
+  $("#perms").innerHTML = `<div class="perms-in">
+    <div class="between" style="align-items:flex-end"><div class="stack" style="gap:8px"><p class="eyebrow">${first ? "Step 3 of 3 · " : ""}Your data, your choice</p><h1>Compass – Financial Data Permissions</h1></div><span class="tag">Illustrative consent interface</span></div>
+    <p class="fg2" style="max-width:70ch">Each permission explains the data, the purpose and who receives it before you confirm. All of them are optional: Compass works without them, using only what you enter yourself. You can change or withdraw any permission later in Settings → Data &amp; consent.</p>
+    <div class="perm-grid">${PERMS.map((p, i) => `<div class="perm ${permsDraft[p.k] ? "on" : ""} ${focusKey === p.k ? "focus" : ""}" id="perm-${p.k}">
+      <div class="between" style="flex-wrap:nowrap;align-items:flex-start"><div class="stack" style="gap:4px"><span class="eyebrow">${i + 1} · Optional feature</span><h3>${p.t}</h3></div>${toggleHTML("pm-" + p.k, permsDraft[p.k], "Allow " + p.t)}</div>
+      <p>${p.d}</p>
+      <dl><dt>Data</dt><dd>${p.data}</dd><dt>Purpose</dt><dd>${p.purpose}</dd><dt>Recipient</dt><dd>${p.to}</dd></dl></div>`).join("")}</div>
+    <div class="perm-bar"><span class="small muted" id="permCount">${n} of ${PERMS.length} allowed${S.permsReceipt ? ` · last receipt ${S.permsReceipt}` : ""}</span>
+      <div class="split" style="gap:10px"><button class="btn ghost sm" id="permNone">${first ? "Skip: essentials only" : "Withdraw all"}</button><button class="btn ghost sm" id="permAll">Allow all</button><button class="btn sm" id="permSave">Confirm my choices</button></div></div>
+  </div>`;
+  PERMS.forEach((p) => bindToggle("pm-" + p.k, (v) => { permsDraft[p.k] = v; $(`#perm-${p.k}`).classList.toggle("on", v); $("#permCount").textContent = `${Object.values(permsDraft).filter(Boolean).length} of ${PERMS.length} allowed`; }));
+  $("#permAll").addEventListener("click", () => { PERMS.forEach((p) => (permsDraft[p.k] = true)); renderPerms(); });
+  $("#permNone").addEventListener("click", () => savePerms(Object.fromEntries(PERMS.map((p) => [p.k, false]))));
+  $("#permSave").addEventListener("click", () => savePerms({ ...permsDraft }));
+}
+function savePerms(p) {
+  S.perms = p; S.permsDone = true; S.permsAt = new Date().toISOString(); S.permsReceipt = "CMP-" + Math.random().toString(36).slice(2, 8).toUpperCase(); save();
+  $("#perms").hidden = true; route();
+  const n = Object.values(p).filter(Boolean).length;
+  toast(n ? `${n} permission${n > 1 ? "s" : ""} saved · receipt ${S.permsReceipt}` : `Essentials only · receipt ${S.permsReceipt}`);
+  const f = permsAfter; permsAfter = null; f && f();
+}
+function permNotice(r) {
+  const k = PERM_FOR[r]; if (!k || !S.permsDone || S.perms[k]) return;
+  const p = PERMS.find((x) => x.k === k);
+  $("#view").insertAdjacentHTML("afterbegin", `<div class="permnote"><div><b>${p.t} is off.</b> ${k === "ai" ? "The planner uses built-in calculations only; nothing is sent to the AI processor." : "Figures on this page are demo data until you allow it."}</div><button class="btn ghost sm" data-perm-open="${k}">Review permission</button></div>`);
+}
+function permsSummaryHTML() {
+  const when = S.permsAt ? new Date(S.permsAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "not yet given";
+  return `<p class="eyebrow">Financial data permissions</p><div class="rows">${PERMS.map((p) => `<div class="row"><div class="grow"><div class="t">${p.t}</div><div class="s">${p.purpose}</div></div><span class="pill ${S.perms[p.k] ? "good" : "plain"}">${S.perms[p.k] ? "Allowed" : "Off"}</span></div>`).join("")}</div>
+    <div class="between small"><span class="muted">Last updated ${when}${S.permsReceipt ? ` · receipt ${S.permsReceipt}` : ""} · Terms accepted ${S.tcAccepted ? new Date(S.tcAccepted).toLocaleDateString("en-IN", { dateStyle: "medium" }) : "—"}</span><button class="btn sm" data-perm-open="all">Review permissions</button></div>`;
+}
+document.addEventListener("click", (e) => {
+  const d = e.target.closest("[data-doc]"); if (d) { e.preventDefault(); docModal(d.dataset.doc); return; }
+  const p = e.target.closest("[data-perm-open]"); if (p) { e.preventDefault(); showPerms(null, p.dataset.permOpen === "all" ? null : p.dataset.permOpen); }
+});
 
 /* ---------- boot ---------- */
 function boot() {
