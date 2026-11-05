@@ -5,6 +5,7 @@ Static site plus one serverless function.
 - `index.html`: the full prototype (desktop app)
 - `mobile.html`: the phone walkthrough ("See mobile demo" opens it in a new tab)
 - `api/ai.js`: lets the AI planners call Google Gemini
+- `hero.mp4`, `hero-poster.jpg`: the intro film (CRED's), shown before sign-in
 
 ## Deploy
 1. Push this folder's contents to the root of a GitHub repo. Do not add your API key to any file.
@@ -21,3 +22,9 @@ Optional variables:
 Note: the API route is public, so anyone who finds the site can use your key's
 quota. Set a usage cap in Google AI Studio / Cloud Console and delete the key
 after the competition.
+
+## Keep the site private
+The intro film belongs to CRED and is included only for a private case-competition
+presentation. Before sharing the link: Vercel → Project → Settings → Deployment Protection →
+turn on Vercel Authentication (or Password Protection), and keep the GitHub repo private.
+To remove the film, delete `hero.mp4`; the site falls back to the code-drawn intro.
