@@ -5,6 +5,7 @@ Static site plus one serverless function.
 - `index.html`: the full prototype (desktop app)
 - `mobile.html`: the phone walkthrough ("See mobile demo" opens it in a new tab)
 - `api/ai.js`: lets the AI planners call Google Gemini
+- `vercel.json`: gives the AI function up to 60 seconds
 - `hero.mp4`, `hero-poster.jpg`: the intro film (CRED's), shown before sign-in
 
 ## Deploy
@@ -15,8 +16,9 @@ Static site plus one serverless function.
    Without it, the site still works and the planners give built-in answers.
 
 Optional variables:
-- `GEMINI_MODEL`: model name (default `gemini-3.8-flash`)
-- `GEMINI_FALLBACKS`: models to try if the main one is busy (default `gemini-3.5-flash,gemini-2.5-flash,gemini-flash-lite-latest`)
+- `GEMINI_MODEL`: model name (default `gemini-2.5-flash`, chosen for speed)
+- `GEMINI_FALLBACKS`: models to try if the main one is busy (default `gemini-2.5-flash,gemini-flash-lite-latest,gemini-3.5-flash`)
+- `GEMINI_TIMEOUT_MS`: how long to wait for one model before trying the next (default 20000)
 - `GEMINI_URL`: a different endpoint base URL, if your key is for Vertex AI
   (e.g. `https://aiplatform.googleapis.com/v1/publishers/google/models`)
 

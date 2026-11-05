@@ -260,6 +260,7 @@ details.more[open]>summary::before{content:"−"}
   .hero{grid-template-columns:minmax(0,1fr);min-height:0;padding-block:28px 8px;gap:12px}
   .c3-wrap{order:-1;min-height:250px}
 }
+.pdisc{font-size:11px;color:var(--muted);border-top:1px dashed var(--line-2);padding-top:10px;margin:0}
 </style>
 
 <div class="stage" aria-hidden="true"><div class="halo"></div><div class="grain"></div></div>
@@ -290,7 +291,7 @@ details.more[open]>summary::before{content:"−"}
     <ol class="steps" id="steps"></ol>
     <div class="alldone" id="alldone"><b>That's the whole flow.</b> Try your own plans, or ask the planner anything.</div>
     <div class="row-btns"><button class="pbtn" id="reset">Reset demo</button><button class="plink" id="hintsBtn">Hide hints</button><a class="plink" href="index.html" target="_blank" rel="noopener">Full desktop prototype ↗</a></div>
-    <p class="note">Dummy data for fictional members. Score model: gradient-boosted trees trained on synthetic bureau-style profiles, typical error ±10.1 points. Products such as CRED Cash and the partner rates shown are illustrative.</p>
+    <p class="note">Sample data for fictional members, generated with AI; results may contain discrepancies. Score model: gradient-boosted trees trained on synthetic bureau-style profiles, typical error ±10.1 points. Products such as CRED Cash and the partner rates shown are illustrative.</p>
   </section>
 
   <div class="phone-wrap"><div class="phone" id="phone" aria-label="App prototype">
@@ -450,6 +451,7 @@ function render() {
   if (S.scr === "fc") { v.innerHTML = fcShellHTML(); chartSVG.draw = true; fcUpdate(); chartSVG.draw = false; }
   if (S.scr === "ask") { v.innerHTML = askHTML(); $("#composerSlot").innerHTML = `<form class="composer" id="cform"><input id="cin" placeholder="Ask about your money" autocomplete="off" aria-label="Your question"><button class="btn" type="submit" id="csend">Ask</button></form>`; drawChat(); }
   if (S.scr === "foryou") v.innerHTML = foryouHTML();
+  v.insertAdjacentHTML("beforeend", `<p class="pdisc" role="note">Disclaimer: all figures and results here are based on sample data generated with AI for this prototype, and may contain discrepancies. Not financial advice.</p>`);
   v.classList.remove("enter"); void v.offsetWidth; v.classList.add("enter");
   $$("[data-count]", v).forEach((el) => countTo(el, +el.dataset.count, el.dataset.prefix, true));
   steps();
@@ -580,16 +582,44 @@ function drawChat() {
   getSample().then((s) => { const st = $("#aiStat"); if (st) { const live = s && !llmOff; st.className = "pill " + (live ? "good" : ""); st.textContent = live ? "Gemini · live" : "Offline"; } });
   const sc = $("#scroll"); sc.scrollTop = sc.scrollHeight;
 }
-const AI_RULES = `You are the AI planner inside a credit-card and money app (a case-competition prototype with dummy data for one member, Aarav). Answer using ONLY the data and tool results. Rules:
+const AI_RULES = `You are the AI planner inside a credit-card and money app (a case-competition prototype with dummy data for one member, Aarav). For anything about Aarav's own money, use ONLY the DATA and tool results. For general questions about CRED, this app's features, or personal-finance concepts, answer from PRODUCT KNOWLEDGE and general knowledge, briefly, without inventing figures. Rules:
 - Be brief: 2-4 short paragraphs, plain text, **bold** for key numbers, ₹ with Indian grouping.
 - For ANY question about how something changes the credit score, call forecast_credit_score and quote its numbers. Never estimate scores yourself.
 - Be useful before selling. Never push borrowing; if a loan isn't needed, say so. For credit, name the partner, rate and EMI.
 - Healthy habits (autopay, paying before the statement date) earn coins; borrowing never does.
 - End with one line starting "Basis:".
+PRODUCT KNOWLEDGE: CRED: an Indian fintech founded in 2018 by Kunal Shah. A members-only club for creditworthy people: membership needs a credit score of about 750 or above. Members pay credit card bills and earn rewards and coins, and CRED has grown into payments (UPI, scan and pay, UPI on credit), credit (CRED Cash and lending through partner NBFCs), car care and insurance (CRED Garage), and investments and savings products. Case facts (FY25): operating revenue Rs 2,735 crore, up 16%; operating losses roughly halved; lending book about Rs 22,000 crore through partner NBFCs; about 45% of active members use 3 or more products; average revenue per user about Rs 2,000; 14.4 transactions per user per month, up 34%.
+Compass (this prototype): the case team's concept of a Smart Stack money layer for CRED members. Features: safe to spend; financial calendar; net worth; goals; card intelligence; an ML credit-score forecaster (predicts the CIBIL score month by month for any plan); this AI planner; one suggestion at a time in For you; CRED Money (credit at a rate tailored to the member's score, record and investments); a RuPay credit card from a partner bank priced on 7 signals; nearby offers (instant discounts pushed when you reach a partner merchant); recurring payments with reminders (e.g. Rs 9,000 to Papa every month); consent-first data permissions under India's DPDP Act 2023.
+Credit basics: CIBIL scores run 300-900; 750+ is excellent. Biggest factors: paying on time, keeping card utilisation low (under 30%, ideally under 10%), long credit history, few hard enquiries, a healthy mix of credit.
 DATA: `;
 const CTX = JSON.stringify({ member: "Aarav, Mumbai, salary ₹1,50,000/month", creditScore: 782, scoreFactors: { paymentHistory: "62 of 62 on time", utilisation: "4% (₹50K of ₹12.25L across 5 cards)", ageOfCredit: "6 yrs 2 mos", enquiries6m: 1, mix: "5 cards + car loan (EMI ₹12,000)" }, autopay: "already on for all cards", safeToSpend: 39335, preApprovedOffer: "₹3,00,000 CRED Cash credit line from a partner NBFC at 13.5% p.a." });
+
+function faqAnswer(q) {
+  const t = String(q).toLowerCase();
+  const A = (html) => ({ html, badge: `<span class="pill plain">Built-in</span> <span class="small muted">General answer</span>`, src: `<span class="pill">Built-in</span> General answer` });
+  if (/\bcred\b/.test(t) && /(what|who|tell|explain|about|does|do\b)/.test(t) && !/score|cibil/.test(t))
+    return A(`<p><b>CRED</b> is an Indian fintech founded in 2018 by Kunal Shah. It started as a members-only club for creditworthy people (a credit score of about 750+), rewarding them for paying credit card bills on time.</p><p>It has since grown into payments (UPI, scan and pay, UPI on credit), credit (CRED Cash, lending through partner NBFCs), car care and insurance (CRED Garage), and investment products. In FY25 it reported revenue of <b>₹2,735 crore</b>, up 16%, with about 45% of active members using 3 or more of its products.</p>`);
+  if (/compass|this app|this prototype|smart stack/.test(t))
+    return A(`<p><b>Compass</b> is our concept of a "Smart Stack" money layer for CRED members. It shows what's safe to spend, your bills, net worth and goals, and turns them into one useful next step at a time.</p><p>Highlights: an <b>ML credit-score forecaster</b>, this AI planner, CRED Money with rates tailored to you, a RuPay credit card priced on your whole record, nearby instant discounts, recurring-payment reminders, and consent-first data permissions.</p>`);
+  if (/cibil|credit score/.test(t) && /(what|how|improve|increase|good|work)/.test(t))
+    return A(`<p>A <b>CIBIL score</b> runs from 300 to 900; <b>750+</b> is excellent and gets the best rates. What moves it most: paying every bill on time, keeping card utilisation low (under 30%, ideally under 10%), a long credit history, few new loan or card applications, and a healthy mix of credit.</p><p>Try the <b>score forecaster</b> on the Credit score page to see how a loan, autopay or paying early would change yours.</p>`);
+  if (/cred money|tailored rate|interest rate|loan rate/.test(t))
+    return A(`<p><b>CRED Money</b> offers credit at a rate worked out for you, not a list price. Your credit score, repayment record and low utilisation bring it down, and pledging mutual funds or fixed deposits brings it down further. You see the rate, EMI and score impact before anything is shared with the lender.</p>`);
+  if (/rupay/.test(t))
+    return A(`<p>The <b>RuPay credit card</b> comes from a partner bank and works on UPI, so you can scan any QR on credit. Your limit and benefits are based on 7 signals, not just your score: score, repayment record, utilisation, spend, salary credits, investments and time with us.</p>`);
+  if (/nearby|location|discount|offer near/.test(t))
+    return A(`<p><b>Nearby offers</b>: when you reach a partner merchant, you get a push notification with an instant discount. Pay with CRED UPI and it applies automatically. Location is optional and checked on your device.</p>`);
+  if (/recurring|remind|every month|periodic/.test(t))
+    return A(`<p><b>Recurring payments</b>: set up regular payments, like ₹9,000 to Papa every month, and you'll get a reminder before each one is due and can pay in one tap.</p>`);
+  if (/^(hi|hello|hey)\b/.test(t))
+    return A(`<p>Hi! Ask me about your spending, what you can afford, your credit score, or what CRED and Compass can do.</p>`);
+  return null;
+}
+
 function fallbackAnswer(q) {
   const t = q.toLowerCase();
+  const faq = faqAnswer(q); if (faq) return faq;
+  if (!/loan|borrow|cash|emi|lakh|\bl\b|score/.test(t)) return { html: `<p>I can answer questions about Aarav's credit score, loans and autopay, and about what CRED and this app do. Try one of the suggestions below.</p>` };
   if (/autopay/.test(t)) return { html: `<p>Autopay is <b>already on</b> for all five of your cards, so your payment record is protected. Keep it on: payment history is the biggest factor in your score, and the streak earns 250 coins a month.</p>` };
   if (/800|improve|increase|raise|better/.test(t)) { const r = fcTool({ months: 12 }).out; return { html: `<p>You're at <b>782</b>. If nothing changes, the model expects about <b>${r.predicted_if_nothing_changes}</b> in 12 months as your accounts age and an old enquiry drops off.</p><p>You don't need a new product to get there: keep paying on time, keep utilisation under 10%, and avoid new credit applications for the next 6 months.</p>` }; }
   const amt = (t.match(/(\d+(?:\.\d+)?)\s*(lakh|l\b|k)/) || []);
