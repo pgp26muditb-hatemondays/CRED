@@ -3,6 +3,7 @@
 // Optional: GEMINI_MODEL (default gemini-3.8-flash), GEMINI_URL (full base URL, to use another endpoint).
 // The page speaks a simple message format (text, tool_use, tool_result); this file translates it to Gemini and back.
 const MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
+const FALLBACKS = (process.env.GEMINI_FALLBACKS || "gemini-3.5-flash,gemini-2.5-flash,gemini-flash-lite-latest").split(",").map((s) => s.trim()).filter(Boolean);
 const BASE = process.env.GEMINI_URL || "https://generativelanguage.googleapis.com/v1beta/models";
 
 function cleanSchema(s) {
@@ -48,8 +49,14 @@ module.exports = async (req, res) => {
   const body = { contents: toContents(messages), generationConfig: { maxOutputTokens: 2048 } };
   if (Array.isArray(tools) && tools.length) body.tools = [{ functionDeclarations: tools.slice(0, 8).map((t) => ({ name: t.name, description: t.description, parameters: cleanSchema(t.input_schema) })) }];
   try {
-    const r = await fetch(`${BASE}/${MODEL}:generateContent`, { method: "POST", headers: { "x-goog-api-key": key, "content-type": "application/json" }, body: JSON.stringify(body) });
-    const data = await r.json();
+    // Try the chosen model first; if it's busy (503), rate-limited (429) or unavailable (404), fall back to the next one.
+    const models = [MODEL, ...FALLBACKS.filter((m) => m !== MODEL)];
+    let r, data;
+    for (const m of models) {
+      r = await fetch(`${BASE}/${m}:generateContent`, { method: "POST", headers: { "x-goog-api-key": key, "content-type": "application/json" }, body: JSON.stringify(body) });
+      data = await r.json();
+      if (r.ok || ![429, 503, 404].includes(r.status)) break;
+    }
     if (!r.ok) return res.status(r.status === 429 ? 429 : 502).json({ error: (data.error && data.error.message) || "Gemini error" });
     const cand = (data.candidates || [])[0] || {}, parts = (cand.content && cand.content.parts) || [];
     const content = [];

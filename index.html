@@ -3118,7 +3118,8 @@ function boot() {
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if (tourI >= 0) { tourEnd(); return; } closeDrawer(); closeSide(); $("#modalRoot").innerHTML = ""; } });
   window.addEventListener("hashchange", () => { ROUTE = (location.hash || "").slice(1) || null; route(); window.scrollTo(0, 0); });
   initLogin();
-  if (S.authed) { $("#login").hidden = true; runIntro(showApp); } else runIntro();
+  S.authed = false; save(); // every visit starts at sign-in (choices like permissions are still remembered)
+  runIntro();
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 </script>

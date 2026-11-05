@@ -16,6 +16,7 @@ Static site plus one serverless function.
 
 Optional variables:
 - `GEMINI_MODEL`: model name (default `gemini-3.8-flash`)
+- `GEMINI_FALLBACKS`: models to try if the main one is busy (default `gemini-3.5-flash,gemini-2.5-flash,gemini-flash-lite-latest`)
 - `GEMINI_URL`: a different endpoint base URL, if your key is for Vertex AI
   (e.g. `https://aiplatform.googleapis.com/v1/publishers/google/models`)
 
